@@ -1,0 +1,545 @@
+---
+title: "Yarra River Water Quality Analysis"
+author: "AWADHESHKUMAR THAKKAR"
+date: "Sep 1, 2025"
+quarto-required: ">=1.3.0"
+format:
+    html: 
+        output-file: yarra_analysis.html
+        css: "assignment.css"
+        embed-resources: true
+execute:
+  browser: true
+editor: 
+  markdown: 
+    wrap: sentence
+---
+
+```{r warning=FALSE}
+#| echo: false
+# Load libraries
+library(tidyverse)
+library(conflicted)
+
+conflicts_prefer(dplyr::filter)
+conflicts_prefer(dplyr::select)
+conflicts_prefer(dplyr::slice)
+
+# Plot options and themes
+options(
+  digits = 2,
+  width = 60,
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis",
+  ggplot2.discrete.colour = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442"),
+  ggplot2.discrete.fill = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442")
+)
+
+theme_set(theme_bw(base_size = 14) +
+   theme(
+     aspect.ratio = 1,
+     plot.background = element_rect(fill = 'transparent', colour = NA),
+     plot.title.position = "plot",
+     plot.title = element_text(size = 24),
+     panel.background = element_rect(fill = 'transparent', colour = NA),
+     legend.background = element_rect(fill = 'transparent', colour = NA),
+     legend.key = element_rect(fill = 'transparent', colour = NA)
+   )
+)
+```
+
+## 🛠️ Exercises
+
+WE SHALL FIRSTLY LOAD THE NECESSARY LIBRARIES AND THEN IMPORT THE DATA BEFORE STARTING.
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(lubridate)
+
+set.seed(1234)
+```
+
+## Question 1
+
+```{r, warning=FALSE}
+#Reading the data
+getwd()
+library(readxl)
+#reading the data and metadata and viewing it
+yarra_wq <- read_excel("data/yarra_wq.xls")
+#View(yarra_wq) please uncomment to view.
+metadata <- read_csv("data/SW Metadata.csv")
+#View(metadata) commented out to knit. KINDLY UNCOMMENT TO VIEW
+str(yarra_wq) #check data types
+```
+
+```{r}
+colSums(is.na(yarra_wq)) #check for NA values
+sum(is.na(yarra_wq$Datetime)) #
+range(yarra_wq$Datetime, na.rm = TRUE)
+table(lubridate::year(yarra_wq$Datetime), useNA = "ifany")
+
+# Step 1: Remove rows with NA in Datetime
+yarra_wq <- yarra_wq %>%
+  filter(!is.na(Datetime))
+
+# Step 2: Convert Datetime to date-time components
+yarra_wq <- yarra_wq %>%
+  mutate(
+    Year = year(Datetime),
+    Month = month(Datetime),
+    Weekday = wday(Datetime, label = TRUE),
+    Hour = hour(Datetime)
+  )
+
+# Count records by year
+yarra_wq %>%
+  count(Year) %>%
+  filter(Year >= 2000 & Year <= 2019)
+
+# Step 3: Filter data for years from 1990 onwards as asked in qn
+yarra_wq_clean <- yarra_wq %>%
+  filter(Year >= 1990)
+```
+
+*checking which sites have sufficient data*
+
+```{r}
+#which sites/parameters have sufficient data?
+site_counts <- yarra_wq_clean %>%
+  group_by(`Site ID`, Name) %>%
+  summarise(RecordCount = n(), .groups = "drop") %>%
+  arrange(desc(RecordCount)) %>% 
+  print(n=Inf)
+
+site_counts
+
+parameter_counts <- yarra_wq_clean %>%
+  group_by(`Parameter ID`, Parameter) %>%
+  summarise(RecordCount = n(), .groups = "drop") %>%
+  arrange(desc(RecordCount)) %>% 
+  print(n=Inf)
+parameter_counts
+
+
+
+```
+
+```{r}
+#checking the ranges of all parameters to ensure data quality
+yarra_wq_clean %>%
+  group_by(Parameter) %>%
+  summarise(min_val = min(Value, na.rm = TRUE),
+            max_val = max(Value, na.rm = TRUE))
+
+#filtering out row with 0 pH as not physically plausible 
+yarra_wq_clean <- yarra_wq_clean %>%
+  filter(!(Parameter == "pH" & Value == 0))
+
+#filtering out rows that show no variation at all. 
+yarra_wq_clean <- yarra_wq_clean %>%
+  filter(!Parameter %in% c("Nitrogen as Ammonia (Total)",
+                           "Phosphorus as TRP",
+                           "Total Cadmium"))
+
+#View(yarra_wq_clean)
+
+glimpse(yarra_wq_clean)
+yarra_wq_clean %>%
+  group_by(Parameter) %>%
+  summarise(
+    q1 = quantile(Value, 0.25, na.rm = TRUE),
+    median = median(Value, na.rm = TRUE),
+    q3 = quantile(Value, 0.75, na.rm = TRUE),
+    max = max(Value, na.rm = TRUE)
+  )
+
+yarra_wq_clean %>%
+  count(Year, Parameter)
+
+```
+
+After inspecting the raw dataset, we found that 2271 rows had missing or invalid Datetime values, and that the data spanned 1962-2025.
+
+As the research question focuses on whether water quality has declined from the 1990s to recent years, we excluded all rows with missing datetimes and restricted dataset to observations from 1990 onwards.
+Some sites had records with missing datetime values, even though metadata indicated they were active after 1990.
+because the timing of these measurements could not be reliably determined, these rows were excluded.we also derived additional time components (Year, Month, Weekday, Hour) for later analysis.
+
+Coverage checks further showed that several parameters had very few or no usable records; specifically, *Nitrogen as Ammonia (Total), Phosphorus as TRP, and Total Cadmium* contained only zeros and were removed.
+Implausible values such as pH = 0 were also dropped.
+After cleaning, the dataset contained 1509 rows across multiple parameters and sites.
+The cleaned dataset was saved as **yarra_wq_clean.csv** for use in subsequent exploratory an inferential analyses.
+
+
+
+```{r}
+# Save the cleaned dataset
+# This ensures reproducibility and allows later questions to use the same cleaned data
+
+readr::write_csv(yarra_wq_clean, "yarra_wq_clean.csv")
+
+```
+
+## Question 2
+
+```{r}
+#understanding what the quality variable is
+yarra_wq_clean %>% count(Quality)
+yarra_wq_clean %>%
+  filter(Quality == 180) %>%
+  select(`Site ID`, Name, Datetime, Year, Parameter, Value, Quality)
+```
+
+```{r}
+glimpse(metadata)
+
+# Count records by year
+yarra_wq_clean %>%
+  count(Year) %>%
+  filter(Year >= 2000 & Year <= 2019)
+
+```
+
+*although metadata indicates that some sites were still active in the 2000s, no water quality measurements are available in the dataset for 2000-2019. As a result, my comparisons are limited to the 1990s versus the 2020s.*
+
+```{r}
+#creating a period variable to differentiate qualiy between years
+yarra_wq_clean <- yarra_wq_clean %>%
+  mutate(
+    period = case_when(
+      Year >= 1990 & Year <= 1999 ~ "1990s",
+      Year >= 2020 ~ "2020s",
+      TRUE ~ "Other"
+    )
+  )
+
+```
+
+```{r}
+yarra_wq_clean %>%
+  group_by(Parameter, period) %>%
+  summarise(mean_val = mean(Value, na.rm = TRUE),
+            sd_val   = sd(Value, na.rm = TRUE),
+            n = n())
+```
+
+Above mean based summaries show mixed evidence of change, pH increased sightly from 6.9 in 1990s to 7.4 in the 2020s, while turbidity interestinglty declined (from 47 n 1990s to 38 NTU in 2020s).
+Water temperatures have risen from 15C in 1990s to 18 degrees Celcius in 2020s.
+
+```{r}
+yarra_wq_clean %>%
+  group_by(Parameter, period) %>%
+  summarise(median_val = median(Value, na.rm = TRUE),
+            iqr_val    = IQR(Value, na.rm = TRUE))
+
+```
+
+In our median based summaries, we can see the findings being reinforced.
+pH has shifted upwards from 6.9 in 1990s to 7.3 in 2020s.
+interestingly, again turbidity has seen a decline at 29.5 in 1990s to median 23 in 2020s.
+this could reflect improved river management, wastewater treatment upgrades.
+However, since our dataset covers only one monitoring site (Chandler Hwy) and lacks records from 2000-2019, this apparent improvement should be interpreted cautiously.
+The median temperature has increased again from 1990s to 2020s.
+Nitrogen as Total Kjedahl was more commonly measured in 1990s as shown above in the n values as TKN values for 2020s are sparse.
+
+Some parameters (eg dissolved oxygen) were only measured in 1990s, while others eg metals like arsenic, chromium were only measured in 2020s.
+These parameters cannot be compared across decades, limiting their ability to assess long-term change for these indicators.
+
+```{r}
+#Boxplot by decade.
+ggplot(
+  yarra_wq_clean %>% filter(Parameter == "Turbidity"),
+  aes(x = period, y = Value)
+) +
+  geom_boxplot(fill = "lightblue") +
+  scale_y_continuous(trans = "log10") + # use log scale if outliers are huge
+  labs(title = "Turbidity in Yarra River (Chandler Hwy)",
+       x = "Period", y = "Turbidity (NTU)") +
+  theme_minimal()
+
+```
+
+Annual turbidity vs year plot
+
+```{r}
+#Aggregate turbiditiy by year.
+turbidity_yearly <- yarra_wq_clean %>%
+  # Keep only Turbidity values
+  filter(Parameter == "Turbidity") %>%
+  # Group by year of measurement
+  group_by(Year) %>%
+  # Calculate summary stats per year
+  summarise(
+    mean_val = mean(Value, na.rm = TRUE),      # yearly mean
+    median_val = median(Value, na.rm = TRUE),  # yearly median
+    n = n(),                                   # number of samples per year
+    .groups = "drop"
+  )
+
+# Plot mean turbidity by year
+ggplot(turbidity_yearly, aes(x = Year, y = mean_val)) +
+  geom_line(color = "steelblue", linewidth = 1) +    
+  geom_point(aes(size = n), color = "darkred") +      # point size shows how many samples per year
+  labs(
+    title = "Annual Mean Turbidity in the Yarra River (Chandler Hwy)",
+    x = "Year",
+    y = "Mean Turbidity (NTU)",
+    size = "Number of Samples"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    axis.title = element_text(size = 12)
+  )
+```
+
+Turbidity results are illustrated in two complementary ways.
+a boxplot comparison (1990s vs 2020s) highlights a decline in central tendenc.
+However, outliers remain in both the decades, and this reflects episodic storm events.
+the annual plot shows year to year variability and a clear 2 decade gap between 2000-2019.
+
+**side by side boxplots of different parameters**
+
+```{r}
+#  Picking a compact set of core parameters to compare side-by-side
+core_params <- c("pH", "Turbidity", "Water Temperature", "Salinity as EC@25")
+
+# Filter to those parameters and tidy factor order for nicer facets
+plot_box <- yarra_wq_clean %>%
+  filter(Parameter %in% core_params) %>%
+  mutate(
+    Parameter = fct_relevel(Parameter, "pH", "Turbidity", "Water Temperature", "Salinity as EC@25"),
+    period = fct_relevel(period, "1990s", "2020s")
+  )
+
+#  Build the faceted boxplot (free y-scale per parameter)
+ggplot(plot_box, aes(x = period, y = Value)) +
+  geom_boxplot(fill = "pink", alpha = 0.6, outlier.alpha = 0.6) +
+  facet_wrap(~ Parameter, scales = "free_y", nrow = 1) +
+  labs(
+    title = "Water Quality Comparisons (1990s vs 2020s) at Chandler Hwy",
+    x = "Period",
+    y = "Measured Value"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    strip.text = element_text(face = "bold")
+  )
+```
+
+the above figure compares 4 core indicators (pH, turbidity, water temperature, salinity) across the 1990s and 2020s at Chandler Hwy.
+The 2020s data show slightly higher pH values, lower turbidity and variability, and clear upward shift in water temperature, consistent with climate warning.
+salinity distributions have remained pretty similar although we have few outliers as well.
+
+```{r}
+
+salinity_yearly <- yarra_wq_clean %>%
+  filter(Parameter == "Salinity as EC@25") %>%    # keep only salinity
+  group_by(Year) %>%
+  summarise(
+    mean_val = mean(Value, na.rm = TRUE),         # yearly mean salinity
+    median_val = median(Value, na.rm = TRUE),     # yearly median salinity
+    n = n(),                                      # number of samples per year
+    .groups = "drop"
+  )
+
+# Plot annual mean salinity with number of samples ---
+ggplot(salinity_yearly, aes(x = Year, y = mean_val)) +
+  geom_line(color = "darkblue", linewidth = 1) +         # line showing trend
+  geom_point(aes(size = n), color = "firebrick") +       # point size ~ sample count
+  labs(
+    title = "Annual Mean Salinity in the Yarra River (Chandler Hwy)",
+    x = "Year",
+    y = "Mean Salinity (EC@25, µS/cm)",
+    size = "Number of Samples"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.title = element_text(size = 12)
+  )
+
+```
+
+The temporal trend in salinity (EC\@25) at Chandler Hwy shows mixed patterns between the 1990s and 2020s.
+In the early 1990s, salinity levels fluctuated around 200 µS/cm, then declined steadily through the 2000s, reaching a minimum close to 150 µS/cm by 2020.
+However, in the 2020s, salinity spiked sharply, peaking above 220 µS/cm in 2024 before declining again.
+This suggests that salinity levels have become more variable in recent years, possibly reflecting changes in flow regulation, climate conditions, or sampling frequency.
+The size of the points indicates that the 2020s have more consistent sampling, so these trends are supported by a larger evidence base than the 1990s.
+
+```{r}
+# Summary stats table by decade and parameter
+yarra_wq_clean %>%
+  filter(Parameter %in% c("pH", "Turbidity", "Water Temperature", "Salinity as EC@25")) %>%
+  group_by(Parameter, period) %>%
+  summarise(
+    n = n(),
+    mean_val = mean(Value, na.rm = TRUE),
+    median_val = median(Value, na.rm = TRUE),
+    iqr_val = IQR(Value, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+
+```
+
+A key limitation of this dataset is the uneven temporal coverage, with records concentrated in the early 1990s and again from 2020 onwards.
+there is complete absence of data between 2000-2019.
+This gap prevents assessment of whether observed changes were gradual or abrupt.
+The scope of monitoring has also shifted across decades, with some parameters (e.g, dissolved oxygen) measured only in 1990s and others introduced in 2020s.
+this limits comparability.
+Sample sizes are also imbalanced, with fewer records in the 1990s than in the 2020s.
+s \## Question 3
+
+**1)Annual turbidity vs year plot.** Null Hypothesis based on the code- H0:E\[turbidity∣Year\]=μ for all years, i.e the annual mean turbiditiy is constant over time (no association between Year and annual mean.) Alternative Hypothesis: The annual mean turbidity changes with time.
+What visual feature would reject H0?
+- A non-flat trend in the line of annual means, not explainable by random fluctuation, especially when years with larger n also support the trend.
+
+```{r}
+#lineup for annual turbditiy
+
+library(nullabor)
+
+# Step 1: raw turbidity values
+turb_raw <- yarra_wq_clean %>%
+  filter(Parameter == "Turbidity")
+
+# Step 2: lineup (permute Year under H0, then re-aggregate)
+lineup_raw <- lineup(null_permute("Year"), turb_raw, n = 20)
+
+lineup_yearly <- lineup_raw %>%
+  group_by(.sample, Year) %>%
+  summarise(
+    mean_val = mean(Value, na.rm = TRUE),
+    n        = n(),
+    .groups  = "drop"
+  )
+
+# Step 3: Plot lineup  make panels bigger and axes cleaner
+ggplot(lineup_yearly, aes(x = Year, y = mean_val)) +
+  geom_line(color = "steelblue") +
+  geom_point(aes(size = n), color = "darkred", alpha = 0.8) +
+  facet_wrap(~ .sample, ncol = 5) +   # 4 rows × 5 columns = 20 panels
+  scale_y_continuous(limits = c(0, 80)) +   # consistent y-axis
+  labs(
+    title = "Lineup Test: Annual Mean Turbidity (1990s vs 2020s)",
+    x = "Year",
+    y = "Mean Turbidity (NTU)",
+    size = "Number of Samples"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", size = 15),
+    strip.text = element_text(size = 12, face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1) # readable years
+  )
+
+```
+
+Null hypothesis: Mean turbidity has not changed over time (no difference between the 1990s and 2020s).
+Null generation: I permuted the Year values to break the relationship between turbidity and time, then recomputed yearly means to create 19 null datasets.
+Comment: The true dataset appears different from most null panels, showing a clear decline from the 1990s to the 2020s, which suggests rejecting the null.
+
+**2) pH boxplot comparison.** Null Hypothesis: H₀: The distribution of pH in the 1990s is the same as in the 2020s.
+Test idea: If H₀ is true, swapping the period labels (1990s vs 2020s) should not change the shape/position of the boxplots.
+
+generating the lineup
+
+```{r}
+#generate the lineup.
+#Step 1: filter pH only 
+ph_data <- yarra_wq_clean %>%
+  filter(Parameter == "pH") %>%
+  mutate(period = fct_relevel(period, "1990s", "2020s"))
+
+#  Step 2: lineup with null_permute on 'period' 
+# Idea: under H0, period labels are exchangeable.
+ph_lineup <- lineup(null_permute("period"), ph_data, n = 20)
+
+#  Step 3: plot lineup 
+ggplot(ph_lineup, aes(x = period, y = Value)) +
+  geom_boxplot(fill = "skyblue", alpha = 0.6, outlier.alpha = 0.6) +
+  facet_wrap(~ .sample, ncol = 5) +
+  labs(
+    title = "Lineup Test: pH (1990s vs 2020s)",
+    x = "Period",
+    y = "pH"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    strip.text = element_text(size = 11, face = "bold")
+  )
+
+```
+
+Null generation: To test this, the period labels (1990s, 2020s) were permuted among pH values, and 19 null datasets were created.
+Together with the true dataset, these formed a lineup of 20 panels.
+Result: In the true dataset, the 2020s show a clear upward shift in pH compared to the 1990s.
+This pattern is not present in most null panels, which look more balanced.
+The lineup therefore supports rejecting the null, suggesting that pH has significantly increased over time.
+
+**Water salinity plot.** Null hypothesis (H₀): The mean salinity (EC\@25) at Chandler Hwy has remained constant over time, with no systematic difference between the 1990s and 2020s.
+
+Null generation: To test this, the year labels were permuted across salinity measurements, and 19 null datasets were generated.
+Yearly means were recalculated for each, forming a lineup of 20 panels with one real dataset.
+
+```{r}
+#1) Use RAW salinity rows (not pre-aggregated)
+sal_raw <- yarra_wq_clean %>%
+  filter(Parameter == "Salinity as EC@25")
+
+# 2) Generate lineup data: 19 null datasets + 1 true
+#    Null method = permute Year on raw rows (breaks time structure under H0)
+sal_lineup_raw <- lineup(null_permute("Year"), sal_raw, n = 20)
+
+# 3) Re-aggregate within each sample to annual means (what your plot shows)
+sal_lineup_yearly <- sal_lineup_raw %>%
+  group_by(.sample, Year) %>%
+  summarise(
+    mean_val = mean(Value, na.rm = TRUE),
+    n        = n(),              # number of salinity measurements that year
+    .groups  = "drop"
+  )
+
+# 4) Plot the lineup (20 panels). One is the TRUE dataset, others are nulls.
+ggplot(sal_lineup_yearly, aes(x = Year, y = mean_val)) +
+  geom_line(color = "steelblue") +
+  geom_point(aes(size = n), color = "firebrick", alpha = 0.85) +
+  facet_wrap(~ .sample, ncol = 5) +          # 4x5 grid = 20 panels
+  scale_y_continuous(limits = c(0, NA)) +    # keep y >= 0; let top scale adapt
+  labs(
+    title = "Lineup Test: Annual Mean Salinity (EC@25)",
+    x = "Year",
+    y = "Mean Salinity (µS/cm @25°C)",
+    size = "Samples"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", size = 15),
+    strip.text  = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+```
+
+Interpretation: In the real dataset, salinity shows a dip in the 2000s followed by a sharp increase in the 2020s, a pattern that is not typically reproduced in the null panels (which show flatter or random trends).
+This visual difference supports rejecting H0 , suggesting that temporal changes in salinity are real rather than due to chance.
+
+**Declaration** for this assignment, I used generative AI as a support tool to guide my data exploration and analysis process.
+GAI helped me debug code, structure my interpretations and choose appropriate summary statistics and visualisations.
+
+**I have made good use of R packages, mainly from tidyverse collection.
+dplyr and tidyr was mainly used for data cleaning and summarisation.
+ggplot2 was used for visualisation.**
+
+The materials used for this report are:
+
+Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Hayes A, Henry L, Hester J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller K, Ooms J, Robinson D, Seidel DP, Spinu V, Takahashi K, Vaughan D, Wilke C, Woo K, Yutani H (2019).
+"Welcome to the tidyverse." *Journal of Open Source Software*, *4*(43), 1686.
+[doi:10.21105/joss.01686](https://doi.org/10.21105/joss.01686).
+
+The links to my use of ChatGPT for help on this assignment are:
+
+-   <https://chatgpt.com/share/68b651c9-6b78-8001-863e-cce62ef823ca> helped to construct the regex to process the duration variable.
