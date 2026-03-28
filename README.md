@@ -1,4 +1,4 @@
-📌 View full report: [Click here](./yarra_analysis.html)
+📌 View full report: [Live Project](https://awadhesh27.github.io/yarra-water-quality-analysis/yarra_analysis.html)
 
 # yarra-water-quality-analysis
 Exploratory data analysis of Yarra River water quality trends using R
