@@ -3121,10 +3121,20 @@ src: url(data:font/ttf;base64,AAEAAAARAQAABAAQR1BPUwxHs9QAADvIAAAtkEdTVUL5oPFOAA
 * {font-family: 'Karla', sans-serif;font-weight: 400;}h1, h2, h3, h4, h5, h6 {font-family: "PT Sans Narrow", sans-serif;font-weight: 700;color: #027EB6;}h1 {color: #006DAE;}</style>
 </head>
 
-<body class="fullcontent">
+<body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#load-the-libraries" id="toc-load-the-libraries" class="nav-link active" data-scroll-target="#load-the-libraries">Load the Libraries</a></li>
+  <li><a href="#question-1" id="toc-question-1" class="nav-link" data-scroll-target="#question-1">Question 1</a></li>
+  <li><a href="#question-2" id="toc-question-2" class="nav-link" data-scroll-target="#question-2">Question 2</a></li>
+  </ul>
+</nav>
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -3175,30 +3185,38 @@ src: url(data:font/ttf;base64,AAEAAAARAQAABAAQR1BPUwxHs9QAADvIAAAtkEdTVUL5oPFOAA
 [conflicted] Will prefer dplyr::slice over any other package.</code></pre>
 </div>
 </div>
-<section id="exercises" class="level2">
-<h2 class="anchored" data-anchor-id="exercises">🛠️ Exercises</h2>
-<p>WE SHALL FIRSTLY LOAD THE NECESSARY LIBRARIES AND THEN IMPORT THE DATA BEFORE STARTING.</p>
+<section id="load-the-libraries" class="level2">
+<h2 class="anchored" data-anchor-id="load-the-libraries">Load the Libraries</h2>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="question-1" class="level2">
 <h2 class="anchored" data-anchor-id="question-1">Question 1</h2>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Reading the data</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] &quot;C:/Github&quot;</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#reading the data and metadata and viewing it</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>yarra_wq <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;data/yarra_wq.xls&quot;</span>)</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#View(yarra_wq) please uncomment to view.</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>metadata <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/SW Metadata.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 10 Columns: 28
 ── Column specification ────────────────────────────────────
@@ -3211,8 +3229,11 @@ date  (5): Start date, Cease date, Last Gauge Date, Firs...
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#View(metadata) commented out to knit. KINDLY UNCOMMENT TO VIEW</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(yarra_wq) <span class="co">#check data types</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>tibble [16,383 × 10] (S3: tbl_df/tbl/data.frame)
  $ Site ID            : num [1:16383] 229108 229108 229108 229108 229108 ...
@@ -3228,7 +3249,10 @@ date  (5): Start date, Cease date, Last Gauge Date, Firs...
 </div>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(yarra_wq)) <span class="co">#check for NA values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>            Site ID                Name            Datetime 
                   0                   0                2271 
@@ -3239,15 +3263,24 @@ date  (5): Start date, Cease date, Last Gauge Date, Firs...
          Resolution 
                   0 </code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(yarra_wq<span class="sc">$</span>Datetime)) <span class="co">#</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2271</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(yarra_wq<span class="sc">$</span>Datetime, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] &quot;1962-06-15 00:00:00 UTC&quot; &quot;2025-03-26 10:50:00 UTC&quot;</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(lubridate<span class="sc">::</span><span class="fu">year</span>(yarra_wq<span class="sc">$</span>Datetime), <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 
@@ -3257,6 +3290,8 @@ date  (5): Start date, Cease date, Last Gauge Date, Firs...
 1994 2020 2021 2022 2023 2024 2025 &lt;NA&gt; 
  110  197  173  155  184  351  137 2271 </code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Remove rows with NA in Datetime</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>yarra_wq <span class="ot">&lt;-</span> yarra_wq <span class="sc">%&gt;%</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Datetime))</span>
@@ -3274,40 +3309,53 @@ date  (5): Start date, Cease date, Last Gauge Date, Firs...
 <span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>yarra_wq <span class="sc">%&gt;%</span></span>
 <span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Year) <span class="sc">%&gt;%</span></span>
 <span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">&gt;=</span> <span class="dv">2000</span> <span class="sc">&amp;</span> Year <span class="sc">&lt;=</span> <span class="dv">2019</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 0 × 2
 # ℹ 2 variables: Year &lt;dbl&gt;, n &lt;int&gt;</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Filter data for years from 1990 onwards as asked in qn</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>yarra_wq_clean <span class="ot">&lt;-</span> yarra_wq <span class="sc">%&gt;%</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">&gt;=</span> <span class="dv">1990</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p><em>checking which sites have sufficient data</em></p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#which sites/parameters have sufficient data?</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>site_counts <span class="ot">&lt;-</span> yarra_wq_clean <span class="sc">%&gt;%</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="st">`</span><span class="at">Site ID</span><span class="st">`</span>, Name) <span class="sc">%&gt;%</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">RecordCount =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(RecordCount)) <span class="sc">%&gt;%</span> </span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n=</span><span class="cn">Inf</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   `Site ID` Name                 RecordCount
       &lt;dbl&gt; &lt;chr&gt;                      &lt;int&gt;
 1    229143 YARRA @ CHANDLER HWY        1619</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>site_counts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   `Site ID` Name                 RecordCount
       &lt;dbl&gt; &lt;chr&gt;                      &lt;int&gt;
 1    229143 YARRA @ CHANDLER HWY        1619</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>parameter_counts <span class="ot">&lt;-</span> yarra_wq_clean <span class="sc">%&gt;%</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="st">`</span><span class="at">Parameter ID</span><span class="st">`</span>, Parameter) <span class="sc">%&gt;%</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">RecordCount =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(RecordCount)) <span class="sc">%&gt;%</span> </span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n=</span><span class="cn">Inf</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 22 × 3
    `Parameter ID` Parameter                      RecordCount
@@ -3335,7 +3383,10 @@ date  (5): Start date, Cease date, Last Gauge Date, Firs...
 21           2331 Nitrogen as Nitrate (NO2)                2
 22           2335 Nitrogen as Ammonia (Total)              2</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>parameter_counts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 22 × 3
    `Parameter ID` Parameter                 RecordCount
@@ -3354,11 +3405,14 @@ date  (5): Start date, Cease date, Last Gauge Date, Firs...
 </div>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#checking the ranges of all parameters to ensure data quality</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>yarra_wq_clean <span class="sc">%&gt;%</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Parameter) <span class="sc">%&gt;%</span></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">min_val =</span> <span class="fu">min</span>(Value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">max_val =</span> <span class="fu">max</span>(Value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 22 × 3
    Parameter                        min_val max_val
@@ -3375,6 +3429,8 @@ date  (5): Start date, Cease date, Last Gauge Date, Firs...
 10 Phosphorus as FRP                  0.006   0.08 
 # ℹ 12 more rows</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#filtering out row with 0 pH as not physically plausible </span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>yarra_wq_clean <span class="ot">&lt;-</span> yarra_wq_clean <span class="sc">%&gt;%</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(Parameter <span class="sc">==</span> <span class="st">&quot;pH&quot;</span> <span class="sc">&amp;</span> Value <span class="sc">==</span> <span class="dv">0</span>))</span>
@@ -3388,6 +3444,7 @@ date  (5): Start date, Cease date, Last Gauge Date, Firs...
 <span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="co">#View(yarra_wq_clean)</span></span>
 <span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(yarra_wq_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 1,509
 Columns: 14
@@ -3406,6 +3463,8 @@ $ Month                 &lt;dbl&gt; 3, 4, 5, 6, 7, 8, 9, 10, 11,…
 $ Weekday               &lt;ord&gt; Tue, Wed, Tue, Wed, Tue, Tue…
 $ Hour                  &lt;int&gt; 9, 11, 9, 11, 11, 10, 9, 11,…</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>yarra_wq_clean <span class="sc">%&gt;%</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Parameter) <span class="sc">%&gt;%</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
@@ -3414,6 +3473,7 @@ $ Hour                  &lt;int&gt; 9, 11, 9, 11, 11, 10, 9, 11,…</code></pre>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">q3 =</span> <span class="fu">quantile</span>(Value, <span class="fl">0.75</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">max =</span> <span class="fu">max</span>(Value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 19 × 5
    Parameter                       q1  median      q3    max
@@ -3438,8 +3498,11 @@ $ Hour                  &lt;int&gt; 9, 11, 9, 11, 11, 10, 9, 11,…</code></pre>
 18 Water Temperature           12.4    18.4    22     2.6e+1
 19 pH                           7       7.2     7.5   9.3e+0</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>yarra_wq_clean <span class="sc">%&gt;%</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Year, Parameter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 107 × 3
     Year Parameter                            n
@@ -3461,17 +3524,23 @@ $ Hour                  &lt;int&gt; 9, 11, 9, 11, 11, 10, 9, 11,…</code></pre>
 <p>As the research question focuses on whether water quality has declined from the 1990s to recent years, we excluded all rows with missing datetimes and restricted dataset to observations from 1990 onwards. Some sites had records with missing datetime values, even though metadata indicated they were active after 1990. because the timing of these measurements could not be reliably determined, these rows were excluded.we also derived additional time components (Year, Month, Weekday, Hour) for later analysis.</p>
 <p>Coverage checks further showed that several parameters had very few or no usable records; specifically, <em>Nitrogen as Ammonia (Total), Phosphorus as TRP, and Total Cadmium</em> contained only zeros and were removed. Implausible values such as pH = 0 were also dropped. After cleaning, the dataset contained 1509 rows across multiple parameters and sites. The cleaned dataset was saved as <strong>yarra_wq_clean.csv</strong> for use in subsequent exploratory an inferential analyses.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the cleaned dataset</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This ensures reproducibility and allows later questions to use the same cleaned data</span></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">write_csv</span>(yarra_wq_clean, <span class="st">&quot;yarra_wq_clean.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="question-2" class="level2">
 <h2 class="anchored" data-anchor-id="question-2">Question 2</h2>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#understanding what the quality variable is</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>yarra_wq_clean <span class="sc">%&gt;%</span> <span class="fu">count</span>(Quality)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 2
   Quality     n
@@ -3480,9 +3549,12 @@ $ Hour                  &lt;int&gt; 9, 11, 9, 11, 11, 10, 9, 11,…</code></pre>
 2      65   412
 3     180     8</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>yarra_wq_clean <span class="sc">%&gt;%</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Quality <span class="sc">==</span> <span class="dv">180</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">Site ID</span><span class="st">`</span>, Name, Datetime, Year, Parameter, Value, Quality)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 8 × 7
   `Site ID` Name   Datetime             Year Parameter Value
@@ -3499,7 +3571,10 @@ $ Hour                  &lt;int&gt; 9, 11, 9, 11, 11, 10, 9, 11,…</code></pre>
 </div>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(metadata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 10
 Columns: 28
@@ -3532,10 +3607,13 @@ $ `Cease to flow (m)`              &lt;dbl&gt; 0.000, 0.000, 0.0…
 $ Datum                            &lt;chr&gt; &quot;Arbitrary&quot;, &quot;Aus…
 $ `Spillway (mAHD)`                &lt;dbl&gt; 0, 0, 0, 0, 0, 0,…</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count records by year</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>yarra_wq_clean <span class="sc">%&gt;%</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Year) <span class="sc">%&gt;%</span></span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">&gt;=</span> <span class="dv">2000</span> <span class="sc">&amp;</span> Year <span class="sc">&lt;=</span> <span class="dv">2019</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 0 × 2
 # ℹ 2 variables: Year &lt;dbl&gt;, n &lt;int&gt;</code></pre>
@@ -3543,6 +3621,8 @@ $ `Spillway (mAHD)`                &lt;dbl&gt; 0, 0, 0, 0, 0, 0,…</code></pre>
 </div>
 <p><em>although metadata indicates that some sites were still active in the 2000s, no water quality measurements are available in the dataset for 2000-2019. As a result, my comparisons are limited to the 1990s versus the 2020s.</em></p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co">#creating a period variable to differentiate qualiy between years</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>yarra_wq_clean <span class="ot">&lt;-</span> yarra_wq_clean <span class="sc">%&gt;%</span></span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -3552,13 +3632,17 @@ $ `Spillway (mAHD)`                &lt;dbl&gt; 0, 0, 0, 0, 0, 0,…</code></pre>
 <span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;Other&quot;</span></span>
 <span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>yarra_wq_clean <span class="sc">%&gt;%</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Parameter, period) <span class="sc">%&gt;%</span></span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_val =</span> <span class="fu">mean</span>(Value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_val   =</span> <span class="fu">sd</span>(Value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by &#39;Parameter&#39;. You can
 override using the `.groups` argument.</code></pre>
@@ -3583,10 +3667,13 @@ override using the `.groups` argument.</code></pre>
 </div>
 <p>Above mean based summaries show mixed evidence of change, pH increased sightly from 6.9 in 1990s to 7.4 in the 2020s, while turbidity interestinglty declined (from 47 n 1990s to 38 NTU in 2020s). Water temperatures have risen from 15C in 1990s to 18 degrees Celcius in 2020s.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>yarra_wq_clean <span class="sc">%&gt;%</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Parameter, period) <span class="sc">%&gt;%</span></span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">median_val =</span> <span class="fu">median</span>(Value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">iqr_val    =</span> <span class="fu">IQR</span>(Value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by &#39;Parameter&#39;. You can
 override using the `.groups` argument.</code></pre>
@@ -3612,6 +3699,8 @@ override using the `.groups` argument.</code></pre>
 <p>In our median based summaries, we can see the findings being reinforced. pH has shifted upwards from 6.9 in 1990s to 7.3 in 2020s. interestingly, again turbidity has seen a decline at 29.5 in 1990s to median 23 in 2020s. this could reflect improved river management, wastewater treatment upgrades. However, since our dataset covers only one monitoring site (Chandler Hwy) and lacks records from 2000-2019, this apparent improvement should be interpreted cautiously. The median temperature has increased again from 1990s to 2020s. Nitrogen as Total Kjedahl was more commonly measured in 1990s as shown above in the n values as TKN values for 2020s are sparse.</p>
 <p>Some parameters (eg dissolved oxygen) were only measured in 1990s, while others eg metals like arsenic, chromium were only measured in 2020s. These parameters cannot be compared across decades, limiting their ability to assess long-term change for these indicators.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Boxplot by decade.</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  yarra_wq_clean <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Parameter <span class="sc">==</span> <span class="st">&quot;Turbidity&quot;</span>),</span>
@@ -3622,6 +3711,7 @@ override using the `.groups` argument.</code></pre>
 <span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Turbidity in Yarra River (Chandler Hwy)&quot;</span>,</span>
 <span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Period&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Turbidity (NTU)&quot;</span>) <span class="sc">+</span></span>
 <span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in scale_y_continuous(trans = &quot;log10&quot;): log-10
 transformation introduced infinite values.</code></pre>
@@ -3640,6 +3730,8 @@ range (`stat_boxplot()`).</code></pre>
 </div>
 <p>Annual turbidity vs year plot</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Aggregate turbiditiy by year.</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>turbidity_yearly <span class="ot">&lt;-</span> yarra_wq_clean <span class="sc">%&gt;%</span></span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Keep only Turbidity values</span></span>
@@ -3669,6 +3761,7 @@ range (`stat_boxplot()`).</code></pre>
 <span id="cb55-27"><a href="#cb55-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">size =</span> <span class="dv">14</span>),</span>
 <span id="cb55-28"><a href="#cb55-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>)</span>
 <span id="cb55-29"><a href="#cb55-29" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -3680,6 +3773,8 @@ range (`stat_boxplot()`).</code></pre>
 <p>Turbidity results are illustrated in two complementary ways. a boxplot comparison (1990s vs 2020s) highlights a decline in central tendenc. However, outliers remain in both the decades, and this reflects episodic storm events. the annual plot shows year to year variability and a clear 2 decade gap between 2000-2019.</p>
 <p><strong>side by side boxplots of different parameters</strong></p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co">#  Picking a compact set of core parameters to compare side-by-side</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>core_params <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;pH&quot;</span>, <span class="st">&quot;Turbidity&quot;</span>, <span class="st">&quot;Water Temperature&quot;</span>, <span class="st">&quot;Salinity as EC@25&quot;</span>)</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3705,6 +3800,7 @@ range (`stat_boxplot()`).</code></pre>
 <span id="cb56-23"><a href="#cb56-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb56-24"><a href="#cb56-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb56-25"><a href="#cb56-25" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -3715,6 +3811,8 @@ range (`stat_boxplot()`).</code></pre>
 </div>
 <p>the above figure compares 4 core indicators (pH, turbidity, water temperature, salinity) across the 1990s and 2020s at Chandler Hwy. The 2020s data show slightly higher pH values, lower turbidity and variability, and clear upward shift in water temperature, consistent with climate warning. salinity distributions have remained pretty similar although we have few outliers as well.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>salinity_yearly <span class="ot">&lt;-</span> yarra_wq_clean <span class="sc">%&gt;%</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Parameter <span class="sc">==</span> <span class="st">&quot;Salinity as EC@25&quot;</span>) <span class="sc">%&gt;%</span>    <span class="co"># keep only salinity</span></span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Year) <span class="sc">%&gt;%</span></span>
@@ -3740,6 +3838,7 @@ range (`stat_boxplot()`).</code></pre>
 <span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>)</span>
 <span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -3750,6 +3849,8 @@ range (`stat_boxplot()`).</code></pre>
 </div>
 <p>The temporal trend in salinity (EC@25) at Chandler Hwy shows mixed patterns between the 1990s and 2020s. In the early 1990s, salinity levels fluctuated around 200 µS/cm, then declined steadily through the 2000s, reaching a minimum close to 150 µS/cm by 2020. However, in the 2020s, salinity spiked sharply, peaking above 220 µS/cm in 2024 before declining again. This suggests that salinity levels have become more variable in recent years, possibly reflecting changes in flow regulation, climate conditions, or sampling frequency. The size of the points indicates that the 2020s have more consistent sampling, so these trends are supported by a larger evidence base than the 1990s.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary stats table by decade and parameter</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>yarra_wq_clean <span class="sc">%&gt;%</span></span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Parameter <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;pH&quot;</span>, <span class="st">&quot;Turbidity&quot;</span>, <span class="st">&quot;Water Temperature&quot;</span>, <span class="st">&quot;Salinity as EC@25&quot;</span>)) <span class="sc">%&gt;%</span></span>
@@ -3761,6 +3862,7 @@ range (`stat_boxplot()`).</code></pre>
 <span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">iqr_val =</span> <span class="fu">IQR</span>(Value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
 <span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 8 × 6
   Parameter         period     n mean_val median_val iqr_val
@@ -3778,21 +3880,29 @@ range (`stat_boxplot()`).</code></pre>
 <p>A key limitation of this dataset is the uneven temporal coverage, with records concentrated in the early 1990s and again from 2020 onwards. there is complete absence of data between 2000-2019. This gap prevents assessment of whether observed changes were gradual or abrupt. The scope of monitoring has also shifted across decades, with some parameters (e.g, dissolved oxygen) measured only in 1990s and others introduced in 2020s. this limits comparability. Sample sizes are also imbalanced, with fewer records in the 1990s than in the 2020s. s ## Question 3</p>
 <p><strong>1)Annual turbidity vs year plot.</strong> Null Hypothesis based on the code- H0:E[turbidity∣Year]=μ for all years, i.e the annual mean turbiditiy is constant over time (no association between Year and annual mean.) Alternative Hypothesis: The annual mean turbidity changes with time. What visual feature would reject H0? - A non-flat trend in the line of annual means, not explainable by random fluctuation, especially when years with larger n also support the trend.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co">#lineup for annual turbditiy</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nullabor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: package &#39;nullabor&#39; was built under R version 4.4.3</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: raw turbidity values</span></span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>turb_raw <span class="ot">&lt;-</span> yarra_wq_clean <span class="sc">%&gt;%</span></span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Parameter <span class="sc">==</span> <span class="st">&quot;Turbidity&quot;</span>)</span>
 <span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: lineup (permute Year under H0, then re-aggregate)</span></span>
 <span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>lineup_raw <span class="ot">&lt;-</span> <span class="fu">lineup</span>(<span class="fu">null_permute</span>(<span class="st">&quot;Year&quot;</span>), turb_raw, <span class="at">n =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>decrypt(&quot;Efj3 zrAr Ni e6qNAN6i BT&quot;)</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>lineup_yearly <span class="ot">&lt;-</span> lineup_raw <span class="sc">%&gt;%</span></span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(.sample, Year) <span class="sc">%&gt;%</span></span>
 <span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
@@ -3819,6 +3929,7 @@ range (`stat_boxplot()`).</code></pre>
 <span id="cb64-24"><a href="#cb64-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb64-25"><a href="#cb64-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>) <span class="co"># readable years</span></span>
 <span id="cb64-26"><a href="#cb64-26" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 3 rows containing missing values or values outside
 the scale range (`geom_point()`).</code></pre>
@@ -3835,6 +3946,8 @@ the scale range (`geom_point()`).</code></pre>
 <p><strong>2) pH boxplot comparison.</strong> Null Hypothesis: H₀: The distribution of pH in the 1990s is the same as in the 2020s. Test idea: If H₀ is true, swapping the period labels (1990s vs 2020s) should not change the shape/position of the boxplots.</p>
 <p>generating the lineup</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co">#generate the lineup.</span></span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Step 1: filter pH only </span></span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>ph_data <span class="ot">&lt;-</span> yarra_wq_clean <span class="sc">%&gt;%</span></span>
@@ -3844,9 +3957,12 @@ the scale range (`geom_point()`).</code></pre>
 <span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a><span class="co">#  Step 2: lineup with null_permute on &#39;period&#39; </span></span>
 <span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Idea: under H0, period labels are exchangeable.</span></span>
 <span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>ph_lineup <span class="ot">&lt;-</span> <span class="fu">lineup</span>(<span class="fu">null_permute</span>(<span class="st">&quot;period&quot;</span>), ph_data, <span class="at">n =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>decrypt(&quot;Efj3 zrAr Ni e6qNAN6i uu&quot;)</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co">#  Step 3: plot lineup </span></span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ph_lineup, <span class="fu">aes</span>(<span class="at">x =</span> period, <span class="at">y =</span> Value)) <span class="sc">+</span></span>
 <span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">&quot;skyblue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">outlier.alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
@@ -3861,6 +3977,7 @@ the scale range (`geom_point()`).</code></pre>
 <span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">11</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -3873,6 +3990,8 @@ the scale range (`geom_point()`).</code></pre>
 <p><strong>Water salinity plot.</strong> Null hypothesis (H₀): The mean salinity (EC@25) at Chandler Hwy has remained constant over time, with no systematic difference between the 1990s and 2020s.</p>
 <p>Null generation: To test this, the year labels were permuted across salinity measurements, and 19 null datasets were generated. Yearly means were recalculated for each, forming a lineup of 20 panels with one real dataset.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co">#1) Use RAW salinity rows (not pre-aggregated)</span></span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>sal_raw <span class="ot">&lt;-</span> yarra_wq_clean <span class="sc">%&gt;%</span></span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Parameter <span class="sc">==</span> <span class="st">&quot;Salinity as EC@25&quot;</span>)</span>
@@ -3880,9 +3999,12 @@ the scale range (`geom_point()`).</code></pre>
 <span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 2) Generate lineup data: 19 null datasets + 1 true</span></span>
 <span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a><span class="co">#    Null method = permute Year on raw rows (breaks time structure under H0)</span></span>
 <span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>sal_lineup_raw <span class="ot">&lt;-</span> <span class="fu">lineup</span>(<span class="fu">null_permute</span>(<span class="st">&quot;Year&quot;</span>), sal_raw, <span class="at">n =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>decrypt(&quot;Efj3 zrAr Ni e6qNAN6i u4&quot;)</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3) Re-aggregate within each sample to annual means (what your plot shows)</span></span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>sal_lineup_yearly <span class="ot">&lt;-</span> sal_lineup_raw <span class="sc">%&gt;%</span></span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(.sample, Year) <span class="sc">%&gt;%</span></span>
@@ -3910,6 +4032,7 @@ the scale range (`geom_point()`).</code></pre>
 <span id="cb71-25"><a href="#cb71-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text  =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb71-26"><a href="#cb71-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
 <span id="cb71-27"><a href="#cb71-27" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -3919,14 +4042,9 @@ the scale range (`geom_point()`).</code></pre>
 </div>
 </div>
 <p>Interpretation: In the real dataset, salinity shows a dip in the 2000s followed by a sharp increase in the 2020s, a pattern that is not typically reproduced in the null panels (which show flatter or random trends). This visual difference supports rejecting H0 , suggesting that temporal changes in salinity are real rather than due to chance.</p>
-<p><strong>Declaration</strong> for this assignment, I used generative AI as a support tool to guide my data exploration and analysis process. GAI helped me debug code, structure my interpretations and choose appropriate summary statistics and visualisations.</p>
 <p><strong>I have made good use of R packages, mainly from tidyverse collection. dplyr and tidyr was mainly used for data cleaning and summarisation. ggplot2 was used for visualisation.</strong></p>
 <p>The materials used for this report are:</p>
 <p>Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Hayes A, Henry L, Hester J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller K, Ooms J, Robinson D, Seidel DP, Spinu V, Takahashi K, Vaughan D, Wilke C, Woo K, Yutani H (2019). “Welcome to the tidyverse.” <em>Journal of Open Source Software</em>, <em>4</em>(43), 1686. <a href="https://doi.org/10.21105/joss.01686">doi:10.21105/joss.01686</a>.</p>
-<p>The links to my use of ChatGPT for help on this assignment are:</p>
-<ul>
-<li><a href="https://chatgpt.com/share/68b651c9-6b78-8001-863e-cce62ef823ca" class="uri">https://chatgpt.com/share/68b651c9-6b78-8001-863e-cce62ef823ca</a> helped to construct the regex to process the duration variable.</li>
-</ul>
 </section>
 
 </main>

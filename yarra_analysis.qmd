@@ -8,6 +8,8 @@ format:
         output-file: yarra_analysis.html
         css: "assignment.css"
         embed-resources: true
+        code-fold: TRUE
+        toc: true
 execute:
   browser: true
 editor: 
@@ -48,9 +50,8 @@ theme_set(theme_bw(base_size = 14) +
 )
 ```
 
-## 🛠️ Exercises
 
-WE SHALL FIRSTLY LOAD THE NECESSARY LIBRARIES AND THEN IMPORT THE DATA BEFORE STARTING.
+## Load the Libraries
 
 ```{r}
 library(tidyverse)
@@ -527,8 +528,6 @@ ggplot(sal_lineup_yearly, aes(x = Year, y = mean_val)) +
 Interpretation: In the real dataset, salinity shows a dip in the 2000s followed by a sharp increase in the 2020s, a pattern that is not typically reproduced in the null panels (which show flatter or random trends).
 This visual difference supports rejecting H0 , suggesting that temporal changes in salinity are real rather than due to chance.
 
-**Declaration** for this assignment, I used generative AI as a support tool to guide my data exploration and analysis process.
-GAI helped me debug code, structure my interpretations and choose appropriate summary statistics and visualisations.
 
 **I have made good use of R packages, mainly from tidyverse collection.
 dplyr and tidyr was mainly used for data cleaning and summarisation.
@@ -540,6 +539,3 @@ Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Ha
 "Welcome to the tidyverse." *Journal of Open Source Software*, *4*(43), 1686.
 [doi:10.21105/joss.01686](https://doi.org/10.21105/joss.01686).
 
-The links to my use of ChatGPT for help on this assignment are:
-
--   <https://chatgpt.com/share/68b651c9-6b78-8001-863e-cce62ef823ca> helped to construct the regex to process the duration variable.
